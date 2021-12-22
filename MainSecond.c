@@ -32,7 +32,7 @@ pType searchtype(char* name,int numTypes,Type** all_types){
 }
 
 int main(int argc, char* argv[]){
-
+	Battle battle;
 	char* category;
 	char* effective_me;
 	int count=0;
@@ -42,11 +42,11 @@ int main(int argc, char* argv[]){
 	int capacityInType;
 	capacityInType= strtod(argv[2], &end);
 	Type* all_types[type];
-	pPokemon all_pokemons[capacityInType*type];
-	int f;
-	for(f=0;f<capacityInType*type;f++){
-		all_pokemons[f]=NULL;
-	}
+	//pPokemon all_pokemons[capacityInType*type];
+//	int f;
+//	for(f=0;f<capacityInType*type;f++){
+//		all_pokemons[f]=NULL;
+//	}
 	FILE * fp;
 
 
@@ -137,6 +137,7 @@ int main(int argc, char* argv[]){
 		char* temporaly = strtok(buffer,"\r\n");
 		category = (char*)malloc(strlen(temporaly)+1);
 		strcpy(category,temporaly);
+		battle = createBattleByCategory(capacityInType,type,category,equalPok,copyPok,freeFunction_pokemon,getCategory,getpokemonAttack,printPokemon);
 		param = strtok(buffer,",");
 		pType tempty=creatType(param);
 		all_types[counter]=tempty;
@@ -175,19 +176,13 @@ int main(int argc, char* argv[]){
 		typ->pokemon_Num++;
 		bio_Pokemon bio = create_Bio( height,  weight,  attack);
 		pPokemon poke=createPokemon(name,typ,species,bio);
-		all_pokemons[count]=poke;
+		insertObject(battle,poke);
 		count++;
 		ind=1;
 	}
 }
 
 
-	int poki;
-	Battle battle = createBattleByCategory(capacityInType,type,category,equalPok,copyPok,freeFunction_pokemon,getCategory,getpokemonAttack,printPokemon);
-
-	for(poki=0;poki<count;poki++){
-		insertObject(battle,all_pokemons[poki]);
-	}
 
 
 
@@ -195,7 +190,7 @@ int main(int argc, char* argv[]){
 	fclose(fp);
 	char ch='0';
 
-		while (ch!='9'){
+		while (ch!='6'){
 	 	printf("Please choose one of the following numbers:\n");
 	 	printf("1 : Print all Pokemons by types\n");
 		printf("2 : Print all Pokemons types\n");
@@ -260,9 +255,8 @@ int main(int argc, char* argv[]){
 			scanf("%d",&pok_attack);
 			bio_Pokemon bio = create_Bio(pok_height,pok_weight,pok_attack);
 			pPokemon pok = createPokemon(pok_name,typefound,pok_species,bio);
-			all_pokemons[count]=pok;
 			typefound->pokemon_Num++;
-			insertObject(battle,all_pokemons[count]);
+			insertObject(battle,pok);
 			printf("The Pokemon was successfully added.\n");
 			count++;
 			print_Pokemon(pok);
@@ -341,12 +335,6 @@ int main(int argc, char* argv[]){
 				break;
 
 		case '6':
-//			for(int p=0;p<capacityInType*type;p++){
-//				freeFunction_pokemon(all_pokemons[p]);
-//			}
-//			for(int q=0;q<type;q++){
-//				freeFunction_type(all_types[q]);
-//			}
 			destroyBattleByCategory(battle);
 
 			printf("All the memory cleaned and the program is safely closed.\n");
