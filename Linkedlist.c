@@ -40,26 +40,8 @@ lList createlList(copyFunction cpf,freeFunction frf,equalFunction sef,printFunct
 		exit(1);
 	}
 	linked->copyElment=cpf;
-	if(linked->copyElment==NULL){
-		free(linked);
-		printf("No memory available.\n");
-		exit(1);
-	}
 	linked->freeElement=frf;
-	if(linked->copyElment==NULL){
-		free(linked->copyElment);
-		free(linked);
-		printf("No memory available.\n");
-		exit(1);
-	}
 	linked->searchElement=sef;
-	if(linked->searchElement==NULL){
-		free(linked->freeElement);
-		free(linked->copyElment);
-		free(linked);
-		printf("No memory available.\n");
-		exit(1);
-	}
 	linked->printElement=pef;
 	linked->head=NULL;
 	return linked;
