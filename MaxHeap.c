@@ -29,34 +29,9 @@ maxheap createheap(int size_max,char* name,printFunction plm,freeFunction frelm,
 		free(mxp);
 	}
 	mxp->copyfunc=cpyelm;
-	if(mxp->copyfunc==NULL){
-		free(mxp->heapID);
-		free(mxp);
-		printf("No memory available.\n");
-	}
 	mxp->freefunc=frelm;
-	if(mxp->freefunc==NULL){
-		free(mxp->copyfunc);
-		free(mxp->heapID);
-		free(mxp);
-		printf("No memory available.\n");
-	}
 	mxp->printfuc=plm;
-	if(mxp->printfuc==NULL){
-		free(mxp->freefunc);
-		free(mxp->copyfunc);
-		free(mxp->heapID);
-		free(mxp);
-		printf("No memory available.\n");
-	}
 	mxp->compFunc=cmpf;
-	if(mxp->compFunc==NULL){
-		free(mxp->printfuc);
-		free(mxp->freefunc);
-		free(mxp->copyfunc);
-		free(mxp->heapID);
-		free(mxp);
-		printf("No memory available.\n");
 	}
 	mxp->elm=(element*)malloc(sizeof(element)*size_max);
 	mxp->next_ind=0;
@@ -67,7 +42,7 @@ void destroyHeap(maxheap mxp){
 	if(mxp==NULL)
 		return;
 	int i;
-	for(i=mxp->next_ind-1;i>0;i--){
+	for(i=mxp->next_ind-1;i>=0;i--){
 		(mxp->freefunc(mxp->elm[i]));
 		mxp->elm[i]=NULL;
 	}
